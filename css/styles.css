@@ -1,0 +1,62 @@
+header {
+  background-color: indigo;
+  font-size: 2rem;
+  color: whitesmoke;
+  padding: 16px;
+}
+
+button {
+  background-color: indigo;
+  color: whitesmoke;
+  border-radius: 6px;
+  border: 4rem;
+  padding: 6px;
+}
+
+button:hover {
+  background-color: purple;
+  color: gray;
+}
+
+#notes {
+  width: 100%;
+}
+
+.button-col {
+  text-align: right;
+}
+
+.head {
+  margin: 6px;
+}
+
+h1 {
+  margin: 6px;
+}
+
+img {
+  width: 100%;
+  margin: 6px;
+}
+
+label {
+  display: block;
+  margin: 6px;
+}
+
+input {
+  margin: 6px;
+  width: 100%;
+}
+
+input:hover {
+  background-color: lightgray;
+}
+
+textarea {
+  margin: 6px;
+}
+
+textarea:hover {
+  background-color: lightgray;
+}
