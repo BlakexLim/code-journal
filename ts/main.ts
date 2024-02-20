@@ -4,7 +4,6 @@ interface FormElements extends HTMLFormControlsCollection {
   title: HTMLInputElement;
   newUrl: HTMLInputElement;
   notes: HTMLTextAreaElement;
-  entryId?: number;
 }
 
 interface DataValues {
