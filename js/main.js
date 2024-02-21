@@ -30,3 +30,7 @@ $form.addEventListener('submit', (event) => {
   $image.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
+function renderEntry(entry) {
+  entry = data.entries[0];
+  console.log(entry);
+}
