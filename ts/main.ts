@@ -48,15 +48,32 @@ $form.addEventListener('submit', (event: Event) => {
   $form.reset();
 });
 
-// function renderEntry(entry: DataValues) {
-//   const $li = document.createElement('li');
-//     $li.className = 'column-full';
+function renderEntry(entry: DataValues): HTMLLIElement {
+  const $li = document.createElement('li');
+  $li.setAttribute('class', 'row');
 
-//   const $imageUrl =  document.createElement('img');
-//   $imageUrl.setAttribute('src', entry.newUrl);
+  const $entryImage = document.createElement('div');
+  $entryImage.setAttribute('class', 'column-half view-entry');
 
-//   const $entryContent = document.createElement('div');
-//     $entryContent.setAttribute('class', 'column-half');
+  const $viewUrl = document.createElement('img');
+  $viewUrl.setAttribute('src', entry.newUrl);
 
-//     console.log(renderEntry(entry));
-// }
+  const $entryContent = document.createElement('div');
+  $entryContent.setAttribute('class', 'column-half');
+
+  const $viewTitle = document.createElement('h2');
+  $viewTitle.textContent = entry.title;
+
+  const $viewNotes = document.createElement('p');
+  $viewNotes.textContent = entry.notes;
+
+  $entryImage.appendChild($li);
+  $viewUrl.appendChild($entryImage);
+  $entryContent.appendChild($li);
+  $viewTitle.appendChild($entryContent);
+  $viewNotes.appendChild($entryContent);
+
+  return $li;
+}
+
+console.log(renderEntry);
