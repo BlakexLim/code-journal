@@ -66,6 +66,9 @@ ul {
   padding: 0;
 }
 
-li.entryPic {
-  border-radius: 2rem;
+li {
+  display: flex;
+  border-radius: 1rem;
+  width: 50%;
+  margin: 1rem;
 }
