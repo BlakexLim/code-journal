@@ -57,3 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     $ul.appendChild(renderEntry(data.entries[i]));
   }
 });
+const $toggle = document.querySelector('p');
+if (!$toggle) throw new Error('$toggle query failed');
+function toggleNoEntries() {
+  if (data.entries.length === 0) {
+    $toggle?.classList.remove('show');
+  }
+}
+console.log(toggleNoEntries());
