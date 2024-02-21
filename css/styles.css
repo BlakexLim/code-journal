@@ -75,3 +75,17 @@ li {
   border-radius: 1rem;
   padding: 1rem;
 }
+
+a {
+  text-align: right;
+  background-color: indigo;
+  color: whitesmoke;
+  border-radius: 6px;
+  border: 4rem;
+  padding: 6px;
+}
+
+.new-entry-button {
+  justify-content: right;
+  margin: 1rem;
+}

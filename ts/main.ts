@@ -99,17 +99,22 @@ if (!$divEntryForm) throw new Error('$dataView query failed');
 if (!$divEntries) throw new Error('$div query failed');
 
 function viewSwap(view: string): string {
-  if (!$divEntryForm) throw new Error('$dataView query failed');
-  if (!$divEntries) throw new Error('$div query failed');
   if (view === 'entry-form') {
-    $divEntries.className = 'entries hidden';
-    $divEntryForm.className = 'entry-form';
-  } else {
-    $divEntryForm.className = 'entry-form hidden';
-    $divEntries.className = 'entries';
+    $divEntryForm?.classList.remove('hidden');
+    $divEntries?.classList.add('hidden');
+  } else if (view === 'entries') {
+    $divEntries?.classList.remove('hidden');
+    $divEntryForm?.classList.add('hidden');
   }
   data.view = view;
   return data.view;
 }
 
-console.log(viewSwap('entries'));
+const $navBar = document.querySelector('.click-nav');
+if (!$navBar) throw new Error('$clickNavBar query failed');
+
+function clickNavBar(): void {
+  viewSwap('entries');
+}
+
+$navBar.addEventListener('click', clickNavBar);
