@@ -48,7 +48,15 @@ $form.addEventListener('submit', (event: Event) => {
   $form.reset();
 });
 
-// function renderEntry(entry: Object) {
-//   entry = data.entries[0]
-//   console.log(entry);
+// function renderEntry(entry: DataValues) {
+//   const $li = document.createElement('li');
+//     $li.className = 'column-full';
+
+//   const $imageUrl =  document.createElement('img');
+//   $imageUrl.setAttribute('src', entry.newUrl);
+
+//   const $entryContent = document.createElement('div');
+//     $entryContent.setAttribute('class', 'column-half');
+
+//     console.log(renderEntry(entry));
 // }

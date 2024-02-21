@@ -31,6 +31,11 @@ $form.addEventListener('submit', (event) => {
   $form.reset();
 });
 function renderEntry(entry) {
-  entry = data.entries[0];
-  console.log(entry);
+  const $li = document.createElement('li');
+  $li.className = 'column-full';
+  const $imageUrl = document.createElement('img');
+  $imageUrl.setAttribute('src', entry.newUrl);
+  const $entryContent = document.createElement('div');
+  $entryContent.setAttribute('class', 'column-half');
+  console.log(renderEntry(entry));
 }
