@@ -32,10 +32,28 @@ $form.addEventListener('submit', (event) => {
 });
 function renderEntry(entry) {
   const $li = document.createElement('li');
-  $li.className = 'column-full';
-  const $imageUrl = document.createElement('img');
-  $imageUrl.setAttribute('src', entry.newUrl);
+  $li.setAttribute('class', 'row');
+  const $entryImage = document.createElement('div');
+  $entryImage.setAttribute('class', 'column-half view-entry');
+  const $viewUrl = document.createElement('img');
+  $viewUrl.setAttribute('src', entry.newUrl);
   const $entryContent = document.createElement('div');
   $entryContent.setAttribute('class', 'column-half');
-  console.log(renderEntry(entry));
+  const $viewTitle = document.createElement('h2');
+  $viewTitle.textContent = entry.title;
+  const $viewNotes = document.createElement('p');
+  $viewNotes.textContent = entry.notes;
+  $li.appendChild($entryImage);
+  $entryImage.appendChild($viewUrl);
+  $li.appendChild($entryContent);
+  $entryContent.appendChild($viewTitle);
+  $entryContent.appendChild($viewNotes);
+  return $li;
 }
+const $ul = document.querySelector('ul');
+if (!$ul) throw new Error('$ul query failed');
+document.addEventListener('DOMContentLoaded', () => {
+  for (let i = 0; i < data.entries.length; i++) {
+    $ul.appendChild(renderEntry(data.entries[i]));
+  }
+});

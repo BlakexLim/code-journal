@@ -67,11 +67,11 @@ function renderEntry(entry: DataValues): HTMLLIElement {
   const $viewNotes = document.createElement('p');
   $viewNotes.textContent = entry.notes;
 
-  $entryImage.appendChild($li);
-  $viewUrl.appendChild($entryImage);
-  $entryContent.appendChild($li);
-  $viewTitle.appendChild($entryContent);
-  $viewNotes.appendChild($entryContent);
+  $li.appendChild($entryImage);
+  $entryImage.appendChild($viewUrl);
+  $li.appendChild($entryContent);
+  $entryContent.appendChild($viewTitle);
+  $entryContent.appendChild($viewNotes);
 
   return $li;
 }
