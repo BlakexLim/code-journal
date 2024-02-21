@@ -16,10 +16,12 @@ interface DataValues {
 const $imageLink = document.getElementById('newUrl');
 const $image = document.querySelector('img');
 const $form = document.querySelector('form') as HTMLFormElement;
+const $ul = document.querySelector('ul');
 
 if (!$imageLink) throw new Error('$getImage query failed');
 if (!$image) throw new Error('$image query failed');
 if (!$form) throw new Error('$form query failed');
+if (!$ul) throw new Error('$ul query failed');
 
 // add event listener to the variable assigned with the photo-link input
 // assign event.target to a variable and use type assertion as HTMLInputElement
@@ -40,6 +42,11 @@ $form.addEventListener('submit', (event: Event) => {
   };
   data.nextEntryId++;
   data.entries.unshift(formData);
+
+  $ul.prepend(renderEntry(formData));
+  viewSwap('entries');
+  toggleNoEntries();
+
   $image.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
@@ -71,10 +78,6 @@ function renderEntry(entry: DataValues): HTMLLIElement {
 
   return $li;
 }
-
-const $ul = document.querySelector('ul');
-
-if (!$ul) throw new Error('$ul query failed');
 
 document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < data.entries.length; i++) {

@@ -2,9 +2,11 @@
 const $imageLink = document.getElementById('newUrl');
 const $image = document.querySelector('img');
 const $form = document.querySelector('form');
+const $ul = document.querySelector('ul');
 if (!$imageLink) throw new Error('$getImage query failed');
 if (!$image) throw new Error('$image query failed');
 if (!$form) throw new Error('$form query failed');
+if (!$ul) throw new Error('$ul query failed');
 // add event listener to the variable assigned with the photo-link input
 // assign event.target to a variable and use type assertion as HTMLInputElement
 // reassign src attribute of the img tag to value of eventTarget
@@ -23,6 +25,9 @@ $form.addEventListener('submit', (event) => {
   };
   data.nextEntryId++;
   data.entries.unshift(formData);
+  $ul.prepend(renderEntry(formData));
+  viewSwap('entries');
+  toggleNoEntries();
   $image.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
@@ -46,8 +51,6 @@ function renderEntry(entry) {
   $entryContent.appendChild($viewNotes);
   return $li;
 }
-const $ul = document.querySelector('ul');
-if (!$ul) throw new Error('$ul query failed');
 document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < data.entries.length; i++) {
     $ul.appendChild(renderEntry(data.entries[i]));
