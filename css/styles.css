@@ -67,7 +67,6 @@ ul {
 }
 
 li {
-  display: flex;
   border-radius: 1rem;
   width: 50%;
   margin: 1rem;
