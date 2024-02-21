@@ -76,4 +76,12 @@ function renderEntry(entry: DataValues): HTMLLIElement {
   return $li;
 }
 
-console.log(renderEntry);
+const $ul = document.querySelector('ul');
+
+if (!$ul) throw new Error('$ul query failed');
+
+document.addEventListener('DOMContentLoaded', () => {
+  for (let i = 0; i < data.entries.length; i++) {
+    $ul.appendChild(renderEntry(data.entries[i]));
+  }
+});
