@@ -1,10 +1,6 @@
 'use strict';
-// query the DOM for the photo input element
-// query the DOM for the img element
-// the input value is going to listen for an event and assign the event.value to the src attribute of the img element
 const $imageLink = document.getElementById('newUrl');
 const $image = document.querySelector('img');
-// query the DOM for the form element and give it a type of HTMLFormELement
 const $form = document.querySelector('form');
 if (!$imageLink) throw new Error('$getImage query failed');
 if (!$image) throw new Error('$image query failed');
@@ -65,3 +61,20 @@ function toggleNoEntries() {
   }
 }
 console.log(toggleNoEntries());
+const $divEntryForm = document.querySelector('.entry-form');
+const $divEntries = document.querySelector('.entries');
+if (!$divEntryForm) throw new Error('$dataView query failed');
+if (!$divEntries) throw new Error('$div query failed');
+function viewSwap(view) {
+  if (!$divEntryForm) throw new Error('$dataView query failed');
+  if (!$divEntries) throw new Error('$div query failed');
+  if (view === 'entry-form') {
+    $divEntries.className = 'entries hidden';
+    $divEntryForm.className = 'entry-form';
+  } else {
+    $divEntryForm.className = 'entry-form hidden';
+    $divEntries.className = 'entries';
+  }
+  data.view = view;
+}
+console.log(viewSwap(data.view));

@@ -13,12 +13,8 @@ interface DataValues {
   entryId?: number;
 }
 
-// query the DOM for the photo input element
-// query the DOM for the img element
-// the input value is going to listen for an event and assign the event.value to the src attribute of the img element
 const $imageLink = document.getElementById('newUrl');
 const $image = document.querySelector('img');
-// query the DOM for the form element and give it a type of HTMLFormELement
 const $form = document.querySelector('form') as HTMLFormElement;
 
 if (!$imageLink) throw new Error('$getImage query failed');
@@ -96,3 +92,24 @@ function toggleNoEntries(): void {
 }
 
 console.log(toggleNoEntries());
+
+const $divEntryForm = document.querySelector('.entry-form');
+const $divEntries = document.querySelector('.entries');
+if (!$divEntryForm) throw new Error('$dataView query failed');
+if (!$divEntries) throw new Error('$div query failed');
+
+function viewSwap(view: string): string {
+  if (!$divEntryForm) throw new Error('$dataView query failed');
+  if (!$divEntries) throw new Error('$div query failed');
+  if (view === 'entry-form') {
+    $divEntries.className = 'entries hidden';
+    $divEntryForm.className = 'entry-form';
+  } else {
+    $divEntryForm.className = 'entry-form hidden';
+    $divEntries.className = 'entries';
+  }
+  data.view = view;
+  return data.view;
+}
+
+console.log(viewSwap('entries'));
