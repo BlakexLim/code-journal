@@ -93,6 +93,8 @@ function toggleNoEntries(): void {
   if (!$toggle) throw new Error('$toggle query failed');
   if (data.entries.length !== 0) {
     $toggle.className = 'hidden';
+  } else {
+    $toggle.className = 'show';
   }
 }
 
