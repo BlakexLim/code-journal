@@ -34,6 +34,7 @@ $form.addEventListener('submit', (event) => {
 function renderEntry(entry) {
   const $li = document.createElement('li');
   $li.setAttribute('class', 'row');
+  $li.setAttribute('data-entry-id', 'entryId');
   const $entryImage = document.createElement('div');
   $entryImage.setAttribute('class', 'column-half view-entry');
   const $viewUrl = document.createElement('img');
@@ -44,11 +45,14 @@ function renderEntry(entry) {
   $viewTitle.textContent = entry.title;
   const $viewNotes = document.createElement('p');
   $viewNotes.textContent = entry.notes;
+  const $fontAwesomePencil = document.createElement('i');
+  $fontAwesomePencil.setAttribute('class', 'fa-solid fa-pencil column-fourth');
   $li.appendChild($entryImage);
   $entryImage.appendChild($viewUrl);
   $li.appendChild($entryContent);
   $entryContent.appendChild($viewTitle);
   $entryContent.appendChild($viewNotes);
+  $viewTitle.append($fontAwesomePencil);
   return $li;
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -64,6 +68,8 @@ function toggleNoEntries() {
   if (!$toggle) throw new Error('$toggle query failed');
   if (data.entries.length !== 0) {
     $toggle.className = 'hidden';
+  } else {
+    $toggle.className = 'show';
   }
 }
 const $divEntryForm = document.querySelector('div[data-view="entry-form"]');
@@ -92,3 +98,11 @@ function clickNavEntryForm() {
 }
 $navEntries.addEventListener('click', clickNavEntries);
 $navNew.addEventListener('click', clickNavEntryForm);
+// const $dataEntryId = document.querySelector('#entryId')
+// if(!$dataEntryId) throw new Error('$dataEntryId query failed');
+// $ul.addEventListener('click', (event: Event) => {
+//   viewSwap('entry-form');
+//   if ($dataEntryId.matches('entryId')) {
+//     data.entries = data.editing;
+//   }
+// })

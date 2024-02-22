@@ -96,3 +96,18 @@ li {
   padding: 6px;
   text-decoration: none;
 }
+
+i {
+  width: 100%;
+  display: flex;
+  text-align: end;
+}
+
+i:hover {
+  color: indigo;
+}
+
+.column-fourth {
+  width: 70%;
+  margin-left: 13px;
+}
