@@ -17,11 +17,31 @@ const $imageLink = document.getElementById('newUrl') as HTMLInputElement;
 const $image = document.querySelector('img') as HTMLImageElement;
 const $form = document.querySelector('form') as HTMLFormElement;
 const $ul = document.querySelector('ul') as HTMLUListElement;
+const $navEntries = document.querySelector('.click-entries');
+const $navNew = document.querySelector('.click-new');
+const $divEntryForm = document.querySelector(
+  'div[data-view="entry-form"]'
+) as HTMLFormElement;
+const $divEntries = document.querySelector(
+  'div[data-view="entries"]'
+) as HTMLFormElement;
+const $title = document.getElementById('title') as HTMLInputElement;
+const $notes = document.getElementById('notes') as HTMLInputElement;
+const $pageTitle = document.querySelector('h1') as HTMLHeadingElement;
+const $toggle = document.querySelector('#no-entries');
 
+if (!$title) throw new Error('$title query failed');
+if (!$notes) throw new Error('$notes query failed');
+if (!$pageTitle) throw new Error('$pageTitle query failed');
+if (!$navEntries) throw new Error('$clickNavBar query failed');
+if (!$navNew) throw new Error('$navNew query failed');
+if (!$divEntryForm) throw new Error('$dataEntryForm query failed');
+if (!$divEntries) throw new Error('$div query failed');
 if (!$imageLink) throw new Error('$getImage query failed');
 if (!$image) throw new Error('$image query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$ul) throw new Error('$ul query failed');
+if (!$toggle) throw new Error('$toggle query failed');
 
 // add event listener to the variable assigned with the photo-link input
 // assign event.target to a variable and use type assertion as HTMLInputElement
@@ -40,8 +60,17 @@ $form.addEventListener('submit', (event: Event) => {
     notes: $formElements.notes.value,
     entryId: data.nextEntryId,
   };
-  data.nextEntryId++;
-  data.entries.unshift(formData);
+
+  if (data.editing === null) {
+    viewSwap('entries');
+    data.nextEntryId++;
+    data.entries.unshift(formData);
+  } else if (data.editing !== null) {
+    formData.entryId = data.editing.entryId;
+    for (let i = 0; i < data.entries.length; i++) {
+      data.entries[i] = formData;
+    }
+  }
 
   $ul.prepend(renderEntry(formData));
   viewSwap('entries');
@@ -91,9 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleNoEntries();
 });
 
-const $toggle = document.querySelector('#no-entries');
-if (!$toggle) throw new Error('$toggle query failed');
-
 function toggleNoEntries(): void {
   if (!$toggle) throw new Error('$toggle query failed');
   if (data.entries.length !== 0) {
@@ -102,11 +128,6 @@ function toggleNoEntries(): void {
     $toggle.className = 'show';
   }
 }
-
-const $divEntryForm = document.querySelector('div[data-view="entry-form"]');
-const $divEntries = document.querySelector('div[data-view="entries"]');
-if (!$divEntryForm) throw new Error('$dataEntryForm query failed');
-if (!$divEntries) throw new Error('$div query failed');
 
 function viewSwap(view: string): void {
   if (view === 'entry-form') {
@@ -119,11 +140,6 @@ function viewSwap(view: string): void {
   data.view = view;
 }
 
-const $navEntries = document.querySelector('.click-entries');
-const $navNew = document.querySelector('.click-new');
-if (!$navEntries) throw new Error('$clickNavBar query failed');
-if (!$navNew) throw new Error('$navNew query failed');
-
 function clickNavEntries(): void {
   viewSwap('entries');
 }
@@ -134,13 +150,6 @@ function clickNavEntryForm(): void {
 
 $navEntries.addEventListener('click', clickNavEntries);
 $navNew.addEventListener('click', clickNavEntryForm);
-
-const $title = document.getElementById('title') as HTMLInputElement;
-const $notes = document.getElementById('notes') as HTMLInputElement;
-const $pageTitle = document.querySelector('h1') as HTMLHeadingElement;
-if (!$title) throw new Error('$title query failed');
-if (!$notes) throw new Error('$notes query failed');
-if (!$pageTitle) throw new Error('$pageTitle query failed');
 
 $ul.addEventListener('click', (event: Event) => {
   viewSwap('entry-form');
