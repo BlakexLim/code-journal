@@ -13,10 +13,10 @@ interface DataValues {
   entryId?: number;
 }
 
-const $imageLink = document.getElementById('newUrl');
-const $image = document.querySelector('img');
+const $imageLink = document.getElementById('newUrl') as HTMLInputElement;
+const $image = document.querySelector('img') as HTMLImageElement;
 const $form = document.querySelector('form') as HTMLFormElement;
-const $ul = document.querySelector('ul');
+const $ul = document.querySelector('ul') as HTMLUListElement;
 
 if (!$imageLink) throw new Error('$getImage query failed');
 if (!$image) throw new Error('$image query failed');
@@ -135,17 +135,28 @@ function clickNavEntryForm(): void {
 $navEntries.addEventListener('click', clickNavEntries);
 $navNew.addEventListener('click', clickNavEntryForm);
 
+const $title = document.getElementById('title') as HTMLInputElement;
+const $notes = document.getElementById('notes') as HTMLInputElement;
+const $pageTitle = document.querySelector('h1') as HTMLHeadingElement;
+if (!$title) throw new Error('$title query failed');
+if (!$notes) throw new Error('$notes query failed');
+if (!$pageTitle) throw new Error('$pageTitle query failed');
+
 $ul.addEventListener('click', (event: Event) => {
   viewSwap('entry-form');
   const $eventTarget = event.target as HTMLElement;
-
   if ($eventTarget.tagName === 'I') {
     const closest = $eventTarget.closest('li');
     const eventAttr = closest?.getAttribute('data-entry-id');
     for (let i = 0; i < data.entries.length; i++) {
       if (data.entries[i].entryId === Number(eventAttr)) {
         data.editing = data.entries[i];
+        $image.src = data.editing.newUrl;
+        $imageLink.value = data.editing.newUrl;
+        $title.value = data.editing.title;
+        $notes.value = data.editing.notes;
       }
     }
   }
+  $pageTitle.textContent = 'Edit Entry';
 });

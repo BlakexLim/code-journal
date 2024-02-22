@@ -98,6 +98,13 @@ function clickNavEntryForm() {
 }
 $navEntries.addEventListener('click', clickNavEntries);
 $navNew.addEventListener('click', clickNavEntryForm);
+const $formImg = document.querySelector('img');
+const $title = document.getElementById('title');
+const $notes = document.getElementById('notes');
+const $pageTitle = document.querySelector('h1');
+if (!$title) throw new Error('$title query failed');
+if (!$notes) throw new Error('$notes query failed');
+if (!$pageTitle) throw new Error('$pageTitle query failed');
 $ul.addEventListener('click', (event) => {
   viewSwap('entry-form');
   const $eventTarget = event.target;
@@ -107,7 +114,12 @@ $ul.addEventListener('click', (event) => {
     for (let i = 0; i < data.entries.length; i++) {
       if (data.entries[i].entryId === Number(eventAttr)) {
         data.editing = data.entries[i];
+        $image.src = data.editing.newUrl;
+        $imageLink.value = data.editing.newUrl;
+        $title.value = data.editing.title;
+        $notes.value = data.editing.notes;
       }
     }
   }
+  $pageTitle.textContent = 'Edit Entry';
 });
