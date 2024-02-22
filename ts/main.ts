@@ -46,7 +46,6 @@ $form.addEventListener('submit', (event: Event) => {
   $ul.prepend(renderEntry(formData));
   viewSwap('entries');
   toggleNoEntries();
-
   $image.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
@@ -83,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < data.entries.length; i++) {
     $ul.appendChild(renderEntry(data.entries[i]));
   }
+  viewSwap(data.view);
+  toggleNoEntries();
 });
 
 const $toggle = document.querySelector('p');
@@ -93,8 +94,6 @@ function toggleNoEntries(): void {
     $toggle?.classList.remove('show');
   }
 }
-
-console.log(toggleNoEntries());
 
 const $divEntryForm = document.querySelector('.entry-form');
 const $divEntries = document.querySelector('.entries');
