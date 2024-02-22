@@ -53,7 +53,7 @@ $form.addEventListener('submit', (event: Event) => {
 function renderEntry(entry: DataValues): HTMLLIElement {
   const $li = document.createElement('li');
   $li.setAttribute('class', 'row');
-  $li.setAttribute('data-entry-id', 'entryId');
+  $li.setAttribute('data-entry-id', String(entry.entryId));
 
   const $entryImage = document.createElement('div');
   $entryImage.setAttribute('class', 'column-half view-entry');
@@ -149,6 +149,7 @@ $ul.addEventListener('click', (event: Event) => {
     const closest = $eventTarget.closest('li');
     const eventAttr = closest?.getAttribute('data-entry-id');
     for (let i = 0; i < data.entries.length; i++) {
+      console.log(eventAttr);
       if (data.entries[i].entryId === Number(eventAttr)) {
         data.editing = data.entries[i];
         $image.src = data.editing.newUrl;

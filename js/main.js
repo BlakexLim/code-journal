@@ -34,7 +34,7 @@ $form.addEventListener('submit', (event) => {
 function renderEntry(entry) {
   const $li = document.createElement('li');
   $li.setAttribute('class', 'row');
-  $li.setAttribute('data-entry-id', 'entryId');
+  $li.setAttribute('data-entry-id', String(entry.entryId));
   const $entryImage = document.createElement('div');
   $entryImage.setAttribute('class', 'column-half view-entry');
   const $viewUrl = document.createElement('img');
@@ -98,7 +98,6 @@ function clickNavEntryForm() {
 }
 $navEntries.addEventListener('click', clickNavEntries);
 $navNew.addEventListener('click', clickNavEntryForm);
-const $formImg = document.querySelector('img');
 const $title = document.getElementById('title');
 const $notes = document.getElementById('notes');
 const $pageTitle = document.querySelector('h1');
@@ -112,6 +111,7 @@ $ul.addEventListener('click', (event) => {
     const closest = $eventTarget.closest('li');
     const eventAttr = closest?.getAttribute('data-entry-id');
     for (let i = 0; i < data.entries.length; i++) {
+      console.log(eventAttr);
       if (data.entries[i].entryId === Number(eventAttr)) {
         data.editing = data.entries[i];
         $image.src = data.editing.newUrl;
