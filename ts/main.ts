@@ -135,12 +135,17 @@ function clickNavEntryForm(): void {
 $navEntries.addEventListener('click', clickNavEntries);
 $navNew.addEventListener('click', clickNavEntryForm);
 
-// const $dataEntryId = document.querySelector('#entryId')
-// if(!$dataEntryId) throw new Error('$dataEntryId query failed');
+$ul.addEventListener('click', (event: Event) => {
+  viewSwap('entry-form');
+  const $eventTarget = event.target as HTMLElement;
 
-// $ul.addEventListener('click', (event: Event) => {
-//   viewSwap('entry-form');
-//   if ($dataEntryId.matches('entryId')) {
-//     data.entries = data.editing;
-//   }
-// })
+  if ($eventTarget.tagName === 'I') {
+    const closest = $eventTarget.closest('li');
+    const eventAttr = closest?.getAttribute('data-entry-id');
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === Number(eventAttr)) {
+        data.editing = data.entries[i];
+      }
+    }
+  }
+});

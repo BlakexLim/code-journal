@@ -2,7 +2,7 @@
 interface DataEntry {
   view: string;
   entries: DataValues[];
-  editing: null;
+  editing: null | DataValues;
   nextEntryId: number;
 }
 
