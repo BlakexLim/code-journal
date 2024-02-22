@@ -76,16 +76,23 @@ li {
   padding: 1rem;
 }
 
-a {
-  text-align: right;
-  background-color: indigo;
+.click-entries {
+  font-size: 1rem;
+  text-decoration: none;
   color: whitesmoke;
-  border-radius: 6px;
-  border: 4rem;
-  padding: 6px;
 }
 
 .new-entry-button {
-  justify-content: right;
-  margin: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.click-new {
+  background-color: indigo;
+  color: whitesmoke;
+  border: 4rem;
+  border-radius: 6px;
+  padding: 6px;
+  text-decoration: none;
 }

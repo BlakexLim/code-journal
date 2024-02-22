@@ -21,7 +21,7 @@
         <div class="row">
           <div class="column-full">
             <strong class="head">Code Journal</strong>
-            <a href="entries" class="click-nav">Entries</a>
+            <a href="#" class="click-entries">Entries</a>
           </div>
         </div>
       </div>
@@ -57,9 +57,15 @@
         </form>
       </div>
       <div data-view="entries" class="hidden">
-        <div class="row new-entry-button"><a href="entry-form">New</a></div>
-        <h1>Entries</h1>
-        <p class="show">No entries have been recorded</p>
+        <div class="row">
+          <div class="column-half">
+            <h1>Entries</h1>
+          </div>
+          <div class="column-half new-entry-button">
+            <a href="#" class="click-new">New</a>
+          </div>
+        </div>
+        <p id="no-entries">No entries have been recorded</p>
         <ul></ul>
       </div>
     </main>

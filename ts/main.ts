@@ -86,21 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleNoEntries();
 });
 
-const $toggle = document.querySelector('p');
+const $toggle = document.querySelector('#no-entries');
 if (!$toggle) throw new Error('$toggle query failed');
 
 function toggleNoEntries(): void {
-  if (data.entries.length === 0) {
-    $toggle?.classList.remove('show');
+  if (!$toggle) throw new Error('$toggle query failed');
+  if (data.entries.length !== 0) {
+    $toggle.className = 'hidden';
   }
 }
 
-const $divEntryForm = document.querySelector('.entry-form');
-const $divEntries = document.querySelector('.entries');
-if (!$divEntryForm) throw new Error('$dataView query failed');
+const $divEntryForm = document.querySelector('div[data-view="entry-form"]');
+const $divEntries = document.querySelector('div[data-view="entries"]');
+if (!$divEntryForm) throw new Error('$dataEntryForm query failed');
 if (!$divEntries) throw new Error('$div query failed');
 
-function viewSwap(view: string): string {
+function viewSwap(view: string): void {
   if (view === 'entry-form') {
     $divEntryForm?.classList.remove('hidden');
     $divEntries?.classList.add('hidden');
@@ -109,14 +110,20 @@ function viewSwap(view: string): string {
     $divEntryForm?.classList.add('hidden');
   }
   data.view = view;
-  return data.view;
 }
 
-const $navBar = document.querySelector('.click-nav');
-if (!$navBar) throw new Error('$clickNavBar query failed');
+const $navEntries = document.querySelector('.click-entries');
+const $navNew = document.querySelector('.click-new');
+if (!$navEntries) throw new Error('$clickNavBar query failed');
+if (!$navNew) throw new Error('$navNew query failed');
 
-function clickNavBar(): void {
+function clickNavEntries(): void {
   viewSwap('entries');
 }
 
-$navBar.addEventListener('click', clickNavBar);
+function clickNavEntryForm(): void {
+  viewSwap('entry-form');
+}
+
+$navEntries.addEventListener('click', clickNavEntries);
+$navNew.addEventListener('click', clickNavEntryForm);
