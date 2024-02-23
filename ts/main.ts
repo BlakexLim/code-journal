@@ -13,15 +13,35 @@ interface DataValues {
   entryId?: number;
 }
 
-const $imageLink = document.getElementById('newUrl');
-const $image = document.querySelector('img');
+const $imageLink = document.getElementById('newUrl') as HTMLInputElement;
+const $image = document.querySelector('img') as HTMLImageElement;
 const $form = document.querySelector('form') as HTMLFormElement;
-const $ul = document.querySelector('ul');
+const $ul = document.querySelector('ul') as HTMLUListElement;
+const $navEntries = document.querySelector('.click-entries');
+const $navNew = document.querySelector('.click-new');
+const $divEntryForm = document.querySelector(
+  'div[data-view="entry-form"]'
+) as HTMLFormElement;
+const $divEntries = document.querySelector(
+  'div[data-view="entries"]'
+) as HTMLFormElement;
+const $title = document.getElementById('title') as HTMLInputElement;
+const $notes = document.getElementById('notes') as HTMLInputElement;
+const $pageTitle = document.querySelector('h1') as HTMLHeadingElement;
+const $toggle = document.querySelector('#no-entries');
 
+if (!$title) throw new Error('$title query failed');
+if (!$notes) throw new Error('$notes query failed');
+if (!$pageTitle) throw new Error('$pageTitle query failed');
+if (!$navEntries) throw new Error('$clickNavBar query failed');
+if (!$navNew) throw new Error('$navNew query failed');
+if (!$divEntryForm) throw new Error('$dataEntryForm query failed');
+if (!$divEntries) throw new Error('$div query failed');
 if (!$imageLink) throw new Error('$getImage query failed');
 if (!$image) throw new Error('$image query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$ul) throw new Error('$ul query failed');
+if (!$toggle) throw new Error('$toggle query failed');
 
 // add event listener to the variable assigned with the photo-link input
 // assign event.target to a variable and use type assertion as HTMLInputElement
@@ -40,10 +60,32 @@ $form.addEventListener('submit', (event: Event) => {
     notes: $formElements.notes.value,
     entryId: data.nextEntryId,
   };
-  data.nextEntryId++;
-  data.entries.unshift(formData);
 
-  $ul.prepend(renderEntry(formData));
+  const $li = document.querySelectorAll('li');
+
+  if (data.editing === null) {
+    viewSwap('entries');
+    data.nextEntryId++;
+    data.entries.unshift(formData);
+    $ul.prepend(renderEntry(formData));
+  } else if (data.editing !== null) {
+    formData.entryId = data.editing.entryId;
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i] === data.editing) {
+        data.entries[i] = formData;
+      }
+    }
+    for (let i = 0; i < $li.length; i++) {
+      if (
+        $li[i].getAttribute('data-entry-id') === String(data.editing.entryId)
+      ) {
+        $li[i].replaceWith(renderEntry(formData));
+      }
+    }
+    $pageTitle.textContent = 'New Entry';
+    data.editing = null;
+  }
+
   viewSwap('entries');
   toggleNoEntries();
   $image.src = 'images/placeholder-image-square.jpg';
@@ -53,6 +95,7 @@ $form.addEventListener('submit', (event: Event) => {
 function renderEntry(entry: DataValues): HTMLLIElement {
   const $li = document.createElement('li');
   $li.setAttribute('class', 'row');
+  $li.setAttribute('data-entry-id', String(entry.entryId));
 
   const $entryImage = document.createElement('div');
   $entryImage.setAttribute('class', 'column-half view-entry');
@@ -69,11 +112,15 @@ function renderEntry(entry: DataValues): HTMLLIElement {
   const $viewNotes = document.createElement('p');
   $viewNotes.textContent = entry.notes;
 
+  const $fontAwesomePencil = document.createElement('i');
+  $fontAwesomePencil.setAttribute('class', 'fa-solid fa-pencil column-fourth');
+
   $li.appendChild($entryImage);
   $entryImage.appendChild($viewUrl);
   $li.appendChild($entryContent);
   $entryContent.appendChild($viewTitle);
   $entryContent.appendChild($viewNotes);
+  $viewTitle.append($fontAwesomePencil);
 
   return $li;
 }
@@ -86,9 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleNoEntries();
 });
 
-const $toggle = document.querySelector('#no-entries');
-if (!$toggle) throw new Error('$toggle query failed');
-
 function toggleNoEntries(): void {
   if (!$toggle) throw new Error('$toggle query failed');
   if (data.entries.length !== 0) {
@@ -97,11 +141,6 @@ function toggleNoEntries(): void {
     $toggle.className = 'show';
   }
 }
-
-const $divEntryForm = document.querySelector('div[data-view="entry-form"]');
-const $divEntries = document.querySelector('div[data-view="entries"]');
-if (!$divEntryForm) throw new Error('$dataEntryForm query failed');
-if (!$divEntries) throw new Error('$div query failed');
 
 function viewSwap(view: string): void {
   if (view === 'entry-form') {
@@ -114,11 +153,6 @@ function viewSwap(view: string): void {
   data.view = view;
 }
 
-const $navEntries = document.querySelector('.click-entries');
-const $navNew = document.querySelector('.click-new');
-if (!$navEntries) throw new Error('$clickNavBar query failed');
-if (!$navNew) throw new Error('$navNew query failed');
-
 function clickNavEntries(): void {
   viewSwap('entries');
 }
@@ -129,3 +163,22 @@ function clickNavEntryForm(): void {
 
 $navEntries.addEventListener('click', clickNavEntries);
 $navNew.addEventListener('click', clickNavEntryForm);
+
+$ul.addEventListener('click', (event: Event) => {
+  viewSwap('entry-form');
+  const $eventTarget = event.target as HTMLElement;
+  if ($eventTarget.tagName === 'I') {
+    const closest = $eventTarget.closest('li');
+    const eventAttr = closest?.getAttribute('data-entry-id');
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === Number(eventAttr)) {
+        data.editing = data.entries[i];
+        $image.src = data.editing.newUrl;
+        $imageLink.value = data.editing.newUrl;
+        $title.value = data.editing.title;
+        $notes.value = data.editing.notes;
+      }
+    }
+  }
+  $pageTitle.textContent = 'Edit Entry';
+});
