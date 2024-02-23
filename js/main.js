@@ -3,7 +3,6 @@ const $imageLink = document.getElementById('newUrl');
 const $image = document.querySelector('img');
 const $form = document.querySelector('form');
 const $ul = document.querySelector('ul');
-const $li = document.querySelectorAll('li');
 const $navEntries = document.querySelector('.click-entries');
 const $navNew = document.querySelector('.click-new');
 const $divEntryForm = document.querySelector('div[data-view="entry-form"]');
@@ -41,7 +40,6 @@ $form.addEventListener('submit', (event) => {
     entryId: data.nextEntryId,
   };
   const $li = document.querySelectorAll('li');
-  // if (!$li) throw new Error('$li query failed');
   if (data.editing === null) {
     viewSwap('entries');
     data.nextEntryId++;
@@ -61,7 +59,7 @@ $form.addEventListener('submit', (event) => {
         $li[i].replaceWith(renderEntry(formData));
       }
     }
-    $pageTitle = 'New Entry';
+    $pageTitle.textContent = 'New Entry';
     data.editing = null;
   }
   viewSwap('entries');

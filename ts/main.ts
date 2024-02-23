@@ -82,6 +82,7 @@ $form.addEventListener('submit', (event: Event) => {
         $li[i].replaceWith(renderEntry(formData));
       }
     }
+    $pageTitle.textContent = 'New Entry';
     data.editing = null;
   }
 
