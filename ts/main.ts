@@ -61,18 +61,30 @@ $form.addEventListener('submit', (event: Event) => {
     entryId: data.nextEntryId,
   };
 
+  const $li = document.querySelectorAll('li');
+
   if (data.editing === null) {
     viewSwap('entries');
     data.nextEntryId++;
     data.entries.unshift(formData);
+    $ul.prepend(renderEntry(formData));
   } else if (data.editing !== null) {
     formData.entryId = data.editing.entryId;
     for (let i = 0; i < data.entries.length; i++) {
-      data.entries[i] = formData;
+      if (data.entries[i] === data.editing) {
+        data.entries[i] = formData;
+      }
     }
+    for (let i = 0; i < $li.length; i++) {
+      if (
+        $li[i].getAttribute('data-entry-id') === String(data.editing.entryId)
+      ) {
+        $li[i].replaceWith(renderEntry(formData));
+      }
+    }
+    data.editing = null;
   }
 
-  $ul.prepend(renderEntry(formData));
   viewSwap('entries');
   toggleNoEntries();
   $image.src = 'images/placeholder-image-square.jpg';
@@ -158,7 +170,6 @@ $ul.addEventListener('click', (event: Event) => {
     const closest = $eventTarget.closest('li');
     const eventAttr = closest?.getAttribute('data-entry-id');
     for (let i = 0; i < data.entries.length; i++) {
-      console.log(eventAttr);
       if (data.entries[i].entryId === Number(eventAttr)) {
         data.editing = data.entries[i];
         $image.src = data.editing.newUrl;

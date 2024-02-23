@@ -3,6 +3,7 @@ const $imageLink = document.getElementById('newUrl');
 const $image = document.querySelector('img');
 const $form = document.querySelector('form');
 const $ul = document.querySelector('ul');
+const $li = document.querySelectorAll('li');
 const $navEntries = document.querySelector('.click-entries');
 const $navNew = document.querySelector('.click-new');
 const $divEntryForm = document.querySelector('div[data-view="entry-form"]');
@@ -39,17 +40,30 @@ $form.addEventListener('submit', (event) => {
     notes: $formElements.notes.value,
     entryId: data.nextEntryId,
   };
+  const $li = document.querySelectorAll('li');
+  // if (!$li) throw new Error('$li query failed');
   if (data.editing === null) {
     viewSwap('entries');
     data.nextEntryId++;
     data.entries.unshift(formData);
+    $ul.prepend(renderEntry(formData));
   } else if (data.editing !== null) {
     formData.entryId = data.editing.entryId;
     for (let i = 0; i < data.entries.length; i++) {
-      data.entries[i] = formData;
+      if (data.entries[i] === data.editing) {
+        data.entries[i] = formData;
+      }
     }
+    for (let i = 0; i < $li.length; i++) {
+      if (
+        $li[i].getAttribute('data-entry-id') === String(data.editing.entryId)
+      ) {
+        $li[i].replaceWith(renderEntry(formData));
+      }
+    }
+    $pageTitle = 'New Entry';
+    data.editing = null;
   }
-  $ul.prepend(renderEntry(formData));
   viewSwap('entries');
   toggleNoEntries();
   $image.src = 'images/placeholder-image-square.jpg';
@@ -119,7 +133,6 @@ $ul.addEventListener('click', (event) => {
     const closest = $eventTarget.closest('li');
     const eventAttr = closest?.getAttribute('data-entry-id');
     for (let i = 0; i < data.entries.length; i++) {
-      console.log(eventAttr);
       if (data.entries[i].entryId === Number(eventAttr)) {
         data.editing = data.entries[i];
         $image.src = data.editing.newUrl;
